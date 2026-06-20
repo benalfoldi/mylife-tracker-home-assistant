@@ -1,0 +1,46 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "MyLife Tracker",
+        "description": "Enter the base URL and API key for your MyLife Tracker server. The API key is the HA_API_KEY value from your server environment.",
+        "data": {
+          "url": "Server URL",
+          "api_key": "API key",
+          "scan_interval": "Poll interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the server. Check the URL and network.",
+      "invalid_api_key": "Invalid API key.",
+      "invalid_url": "Enter a full URL including https://"
+    },
+    "abort": {
+      "already_configured": "This server is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": { "name": "Status" },
+      "badge_count": { "name": "Badge count" },
+      "docs_badge_count": { "name": "Documents badge" },
+      "payments_badge_count": { "name": "Payments badge" },
+      "unpaid_bills_count": { "name": "Unpaid bills" },
+      "unpaid_extra_costs_count": { "name": "Unpaid extra costs" },
+      "expired_count": { "name": "Expired documents" },
+      "warning_count": { "name": "Warning documents" },
+      "total_count": { "name": "Total documents" }
+    },
+    "binary_sensor": {
+      "has_unpaid_bills": { "name": "Unpaid bills" },
+      "has_unpaid_extra_costs": { "name": "Unpaid extra costs" },
+      "has_expired_docs": { "name": "Expired documents" },
+      "has_warning_docs": { "name": "Warning documents" }
+    },
+    "button": {
+      "refresh": { "name": "Refresh status" },
+      "push_webhook": { "name": "Push to webhook" }
+    }
+  }
+}

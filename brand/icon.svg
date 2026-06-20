@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="houseGrad" x1="15" y1="15" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+  <path d="M50 14L16 44H30V84H70V44H84L50 14Z" stroke="url(#houseGrad)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+  <path d="M68 30V20H76V37" stroke="url(#houseGrad)" stroke-width="6" stroke-linejoin="round" fill="none"/>
+  <path d="M50 72V42M50 42L36 56M50 42L64 56" stroke="url(#houseGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
