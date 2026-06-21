@@ -18,5 +18,7 @@ ATTR_UNPAID_EXTRA_COSTS = "unpaid_extra_costs"
 ATTR_LAST_UPDATED = "last_updated"
 ATTR_DOCS_BADGE_COUNT = "docs_badge_count"
 ATTR_PAYMENTS_BADGE_COUNT = "payments_badge_count"
+ATTR_HOUSEHOLD_LABELS = "household_labels"
+ATTR_USER_LABELS = "user_labels"
 
 SERVICE_REFRESH = "refresh"
