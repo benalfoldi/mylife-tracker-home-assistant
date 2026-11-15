@@ -17,6 +17,8 @@ from .const import (
     ATTR_EDU_NEXT_WEEK_HOMEWORK,
     ATTR_EDU_NEXT_WEEK_RANGE,
     ATTR_EDU_STUDENTS,
+    ATTR_EDU_THIS_WEEK_GRADES,
+    ATTR_EDU_THIS_WEEK_RANGE,
     ATTR_EDU_TIMETABLE_WEEK,
     ATTR_EDU_TIMETABLE_WEEK_RANGE,
     ATTR_EXPIRED_DOCS,
@@ -107,18 +109,25 @@ class MyLifeTrackerEducationSensor(MyLifeTrackerEntity, SensorEntity):
     @property
     def native_value(self) -> StateType:
         edu = self._edu
-        return int(edu.get("last_week_grades_count") or 0) + int(
-            edu.get("next_week_homework_count") or 0
-        )
+        grades = edu.get("this_week_grades_count")
+        if grades is None:
+            grades = edu.get("last_week_grades_count") or 0
+        return int(grades or 0) + int(edu.get("next_week_homework_count") or 0)
 
     @property
     def extra_state_attributes(self) -> dict:
         edu = self._edu
+        grades = edu.get("this_week_grades") or edu.get("last_week_grades") or []
+        grades_range = edu.get("this_week_range") or edu.get("last_week_range") or {}
         return {
             ATTR_EDU_STUDENTS: edu.get("students", []),
-            ATTR_EDU_LAST_WEEK_GRADES: edu.get("last_week_grades", []),
-            "last_week_grades_count": edu.get("last_week_grades_count", 0),
-            ATTR_EDU_LAST_WEEK_RANGE: edu.get("last_week_range", {}),
+            ATTR_EDU_THIS_WEEK_GRADES: grades,
+            "this_week_grades_count": len(grades),
+            ATTR_EDU_THIS_WEEK_RANGE: grades_range,
+            # Aliases for older Lovelace cards
+            ATTR_EDU_LAST_WEEK_GRADES: grades,
+            "last_week_grades_count": len(grades),
+            ATTR_EDU_LAST_WEEK_RANGE: grades_range,
             ATTR_EDU_NEXT_WEEK_HOMEWORK: edu.get("next_week_homework", []),
             "next_week_homework_count": edu.get("next_week_homework_count", 0),
             ATTR_EDU_NEXT_WEEK_RANGE: edu.get("next_week_range", {}),
