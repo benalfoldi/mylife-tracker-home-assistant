@@ -8,6 +8,7 @@ Pair with the **[MyLife Tracker Card](https://github.com/benalfoldi/mylife-track
 
 - **Sensors** — badge counts, unpaid bill/extra-cost counts, document expiry counts
 - **Status sensor** — master entity with full lists in attributes (`unpaid_bills`, `warning_docs`, …)
+- **Education sensor** — last-week grades, next-week homework, current-week timetable (for edu Lovelace cards)
 - **Binary sensors** — `has_unpaid_bills`, `has_unpaid_extra_costs`, `has_expired_docs`, `has_warning_docs`
 - **Buttons** — refresh status, trigger server-side webhook push
 - **Service** — `mylife_tracker.refresh`
@@ -43,6 +44,7 @@ Credentials and URL are stored only in your Home Assistant config — nothing is
 | Entity | Type | Description |
 |--------|------|-------------|
 | Status | sensor | Total badge count; attributes hold full lists |
+| Education | sensor | Grades / házi / órarend snapshot for edu cards |
 | Badge / documents / payments counts | sensor | Numeric badges |
 | Unpaid bills / extra costs | sensor + binary_sensor | Count and on/off |
 | Expired / warning documents | sensor + binary_sensor | Count and on/off |

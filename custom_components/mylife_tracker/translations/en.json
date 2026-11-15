@@ -30,7 +30,8 @@
       "unpaid_extra_costs_count": { "name": "Unpaid extra costs" },
       "expired_count": { "name": "Expired documents" },
       "warning_count": { "name": "Warning documents" },
-      "total_count": { "name": "Total documents" }
+      "total_count": { "name": "Total documents" },
+      "education": { "name": "Education" }
     },
     "binary_sensor": {
       "has_unpaid_bills": { "name": "Unpaid bills" },

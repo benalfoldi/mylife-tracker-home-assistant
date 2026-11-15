@@ -11,6 +11,14 @@ from homeassistant.helpers.typing import StateType
 
 from .const import (
     ATTR_DOCS_BADGE_COUNT,
+    ATTR_EDU_LAST_SYNC_AT,
+    ATTR_EDU_LAST_WEEK_GRADES,
+    ATTR_EDU_LAST_WEEK_RANGE,
+    ATTR_EDU_NEXT_WEEK_HOMEWORK,
+    ATTR_EDU_NEXT_WEEK_RANGE,
+    ATTR_EDU_STUDENTS,
+    ATTR_EDU_TIMETABLE_WEEK,
+    ATTR_EDU_TIMETABLE_WEEK_RANGE,
     ATTR_EXPIRED_DOCS,
     ATTR_LAST_UPDATED,
     ATTR_PAYMENTS_BADGE_COUNT,
@@ -83,6 +91,45 @@ class MyLifeTrackerStatusSensor(MyLifeTrackerEntity, SensorEntity):
         }
 
 
+class MyLifeTrackerEducationSensor(MyLifeTrackerEntity, SensorEntity):
+    """Education snapshot for Kréta grades / homework / timetable cards."""
+
+    def __init__(self, coordinator: MyLifeTrackerCoordinator, entry_id: str) -> None:
+        super().__init__(coordinator, entry_id)
+        self._attr_translation_key = "education"
+        self._attr_unique_id = f"{entry_id}_education"
+        self._attr_icon = "mdi:school-outline"
+
+    @property
+    def _edu(self) -> dict:
+        return self._status.get("education") or {}
+
+    @property
+    def native_value(self) -> StateType:
+        edu = self._edu
+        return int(edu.get("last_week_grades_count") or 0) + int(
+            edu.get("next_week_homework_count") or 0
+        )
+
+    @property
+    def extra_state_attributes(self) -> dict:
+        edu = self._edu
+        return {
+            ATTR_EDU_STUDENTS: edu.get("students", []),
+            ATTR_EDU_LAST_WEEK_GRADES: edu.get("last_week_grades", []),
+            "last_week_grades_count": edu.get("last_week_grades_count", 0),
+            ATTR_EDU_LAST_WEEK_RANGE: edu.get("last_week_range", {}),
+            ATTR_EDU_NEXT_WEEK_HOMEWORK: edu.get("next_week_homework", []),
+            "next_week_homework_count": edu.get("next_week_homework_count", 0),
+            ATTR_EDU_NEXT_WEEK_RANGE: edu.get("next_week_range", {}),
+            ATTR_EDU_TIMETABLE_WEEK: edu.get("timetable_week", []),
+            "timetable_week_count": edu.get("timetable_week_count", 0),
+            ATTR_EDU_TIMETABLE_WEEK_RANGE: edu.get("timetable_week_range", {}),
+            ATTR_EDU_LAST_SYNC_AT: edu.get("last_sync_at"),
+            ATTR_LAST_UPDATED: self._status.get("last_updated"),
+        }
+
+
 SENSOR_SPECS: list[tuple[str, str]] = [
     ("badge_count", "badge_count"),
     ("docs_badge_count", "docs_badge_count"),
@@ -106,6 +153,7 @@ async def async_setup_entry(
     ]
     entities: list[SensorEntity] = [
         MyLifeTrackerStatusSensor(coordinator, entry.entry_id),
+        MyLifeTrackerEducationSensor(coordinator, entry.entry_id),
     ]
     entities.extend(
         MyLifeTrackerCountSensor(coordinator, entry.entry_id, field, key)
